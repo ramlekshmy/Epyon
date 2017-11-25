@@ -2,6 +2,7 @@
 body{
     background: #fefefe;
     font-family: "Roboto", "Helvetica Neue", "Segoe UI", Arial, Sans-Serif;
+    color: #777;
     background-image: url(../images/body-back.jpg);
     background-attachment: fixed;
     background-size: cover;
@@ -88,15 +89,44 @@ body{
 .content-section {
 	width: 80%;
 	min-width:300px !important;
-	background: rgba(255,255,255,0.5);
+	background: rgba(255,255,255,0.8);
 	padding: 30px;
-	margin: 100px auto 0px auto !important;	
-	box-shadow: 1px 1px 8px #000;
-	border: 1px solid #337ab7;
+	margin: 100px auto 0px auto !important;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
-	border-radius: 15px;
+	border-radius: 25px;
 	min-height: 200px;
+}
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+.table-overflow {
+	overflow-x: hidden !important;
+}
+.right-margin {
+	margin-right: 100px;
+}
+.form-display {
+	display: inline-block !important;
+	width: 70% !important;
+	border: 1px solid #1a78c9 !important;
+  	border-radius: 15px !important;
+}
+.form-button {
+	display: inline-block !important;
+	width: 100% !important;
+  	border-radius: 15px !important;
+}
+.red-color {
+	color: red !important;
+}
+.line {
+	height: 3px;
+	background-color:transparent;
+	width: 30%;
+	opacity: 0.3;
 }
 #footer {
 	background: #fff;

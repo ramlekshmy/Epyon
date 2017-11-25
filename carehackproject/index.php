@@ -2,7 +2,13 @@
 session_start();
 if(isset($_SESSION['logged_in']))
 {
-  header("location:pages/phCheckOutView.php");
+  if($_SESSION['logged_in_type'] == 0) {
+     header("location:pages/rdDashboard.php");
+  } 
+  else if ($_SESSION['logged_in_type'] == 1) 
+  {
+     header("location:pages/phCheckOutView.php"); 
+  }
 }
 ?>
 
