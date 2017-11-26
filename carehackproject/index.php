@@ -1,15 +1,12 @@
 <?php
 session_start();
 if(isset($_SESSION['logged_in']))
-{
+
   if($_SESSION['logged_in_type'] == 0) {
      header("location:pages/rdDashboard.php");
-  } 
-  else if ($_SESSION['logged_in_type'] == 1) 
-  {
+    } else if ($_SESSION['logged_in_type'] == 1) {
      header("location:pages/phCheckOutView.php"); 
-  }
-}
+    }
 ?>
 
 <!DOCTYPE html>
@@ -33,7 +30,7 @@ if(isset($_SESSION['logged_in']))
             <div class="col-md-8 col-lg-8 col-sm-8 col-xs-8" >
               <img class="start-img" id="company_logo" src="images/logo.png" width="100px" height="100px" alt="App Logo">
               <h2 id="company_name" class="start-heading"><a href="#top">ep<span class="am-color">Y</span>on</span></a></h2>
-              <div class="tagline" id="tagline"> <a href="#top">A commitment to community.</a> </div>
+              
             </div>
           </div>
         </div>

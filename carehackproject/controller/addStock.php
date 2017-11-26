@@ -1,10 +1,6 @@
 <?php
 require "../config/config.php";
 session_start();
-if(!$_SESSION['logged_in'])
-{
-  header("Location:../index.php");
-}
 
 $userid=$_SESSION['logged_in'];
 $medicine_name = mysqli_escape_string($conn,$_POST['medicine_name']);

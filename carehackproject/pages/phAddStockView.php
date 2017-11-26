@@ -1,5 +1,8 @@
 <?php
     require "../controller/session.php";
+    if($_SESSION['logged_in_type'] == 0) {
+      header("location:rdDashboard.php");
+    }
     require "../config/config.php";
 ?> 
 
@@ -105,11 +108,29 @@
           $('#footer').css('margin-top', (docHeight - footerTop) + 'px');
          }
         });
+
+        $(document).ready(function(){
+            $('#medicinename').on('change',function()
+              {
+              var medicine_name=document.getElementById("medicinename").value;
+              $.ajax({
+              type:"post",
+              url:'../controller/getPrice.php',
+              data:"medicine_name="+medicine_name,
+              success:function(res){
+              document.getElementById("price").value=res;
+              },
+              error:function()
+              {
+              document.getElementById("price").value="0.0"; 
+              }
+            });
+            });
+        });
        </script>
        <script>
         TweenMax.from('#company_logo',0.8,{x:-50,opacity:0})
         TweenMax.from('#billing-section',0.8,{y:100,opacity:0})
-        TweenMax.from('#summary-section',0.8,{y:100,opacity:0})
        </script> 
   </body>
 </html>

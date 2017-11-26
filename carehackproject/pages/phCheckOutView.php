@@ -1,4 +1,12 @@
+<?php
+    require "../controller/session.php";
+    if($_SESSION['logged_in_type'] == 0) {
+      header("location:rdDashboard.php");
+    }
+    require "../config/config.php";
 
+$sql="SELECT * from medicine";
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -40,10 +48,10 @@
           </div>
           <div class="collapse navbar-collapse" id="myNavbar">
               <ul class="nav navbar-nav navbar-right navbar-ul">
-                <li><a class="navbar-user" href="#top">Hai User</a></li>
-                <li class="active"><a href="#top">Check Out</a></li>
-                <li><a href="phAddStockView.php">Add Stock</a></li>
-                <li><a href="../controller/logout.php">Logout</a></li>
+                <li><a class="navbar-user" href="#top"><i class="glyphicon glyphicon-user"></i> Hai User</a></li>
+                <li class="active"><a href="#top"><i class="glyphicon glyphicon-shopping-cart"></i> Check Out</a></li>
+                <li><a href="phAddStockView.php"><i class="glyphicon glyphicon-plus"></i> Add Stock</a></li>
+                <li><a href="../controller/logout.php"><i class="glyphicon glyphicon-log-out"></i> Logout</a></li>
               </ul>
           </div>
         </div>
@@ -51,17 +59,73 @@
 
       <div class="content-section" id="billing-section">
           <h4>Checkout</h4>
-          <form>
-              <input type="select" name="">
-          </form>
+          <hr class="line">
+            <div class="form-group row">
+              <div class="col-md-5 col-lg-5 col-xs-5 col-sm-5">
+                <label>Medicine Name :  </label>
+                <select id="medicineName" name="medicineName" class="form-control form-display" >
+                  <option></option>
+                  <?php
+    if($result=mysqli_query($conn,$sql))
+    {
+      
+        while($row=mysqli_fetch_assoc($result))
+        {
+        ?>
+      
+        <option><?php echo $row['medicine_name'];?></option>
+      
+      
+  <?php
+}
+    }
+  ?>  
+                </select>
+              </div>
+              <div class="col-md-4 col-lg-4 col-xs-4 col-sm-4">
+                <label>Quantity :  </label>
+                <input type="number"  name="count" id="quantity" class="form-control form-display" min="0" max="20">
+              </div>
+              <div class="col-md-3 col-lg-3 col-xs-3 col-sm-3">
+                <button  id="add_list" class="btn btn-primary form-button"><i class="glyphicon glyphicon-ok"></i>   Add</button>
+              </div>
+            </div>
       </div>
-      <h2 class="pull-right">Total Amount:   <span>0.00</span></h2>
+      
       <div class="content-section" id="summary-section">
           <h4>Billing Summary</h4>
-          <table>
-              
-          </table>
+          <div class="table-responsive table-overflow" id="tableList">
+            <table class="table table-hover">
+                <thead>
+                  <th>Sl#</th>
+                  <th>Med. Name</th>
+                  <th>Quantity</th>
+                  <th>Unit Price</th>
+                  <th>Total</th>
+                  <th>Action</th>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td ></td>
+                  </tr>
+                </tbody>
+            </table>
+           
       </div>
+       <div class="row">
+              <div class="col-md-9 col-lg-9 col-xs-9 col-sm-9"></div>
+              <div class="col-md-3 col-lg-3 col-xs-3 col-sm-3">
+                <form method="post" action="../controller/insertandprint.php">
+                  <button  class="btn btn-primary form-button"><i class="glyphicon glyphicon-ok"></i>   Print Bill</button>
+                </form>
+              </div>
+            </div>
+        </div>
     <footer id="footer">
     	<div class="footer-text">
         <span class="footer-span pull-right">Healthcare Solution from Y-Nots &copy; 2018</span>
@@ -77,7 +141,79 @@
          if (footerTop < docHeight) {
           $('#footer').css('margin-top', (docHeight - footerTop) + 'px');
          }
+
+
+
+
+         $('#add_list').on('click',function(){
+            var name=$('#medicineName').val();
+            var quantity=$('#quantity').val();
+            if(name=="  "||quantity=="")
+            {
+              alert("please fill all details");
+            }
+            else
+            {
+            $.ajax({
+              type:'post',
+              url:'../controller/add_to_list.php',
+              data:{"name":name,
+              "quantity":quantity},
+              success:function(res){
+                  document.getElementById("tableList").innerHTML=res;
+              }
+            });
+          }
+         });
+
+             
+             $('#del').on('click',function(){
+               alert("good");
+                  alert("hello");
+           var mid=$('#mid').val();
+           alert(mid);
+           
+            $.ajax({
+              type:'post',
+              url:'',
+              data:{"name":name,
+              "quantity":quantity},
+              success:function(res){
+                  document.getElementById("tableList").innerHTML=res;
+              }
+            });
+         });
         });
+       </script>
+       <script>
+         
+
+         function call_del(x)
+         {
+          var b=x;
+        
+           var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+     document.getElementById("tableList").innerHTML = this.responseText;
+    }
+  };
+  xhttp.open("GET", "../controller/del_med.php?med_name="+x, true);
+  xhttp.send();
+         }
+  //          function print_pdf()
+  //        {
+          
+        
+  //          var xhttp = new XMLHttpRequest();
+  // xhttp.onreadystatechange = function() {
+  //   if (this.readyState == 4 && this.status == 200) {
+  //   // document.getElementById("tableList").innerHTML = this.responseText;
+  //   }
+  // };
+  // xhttp.open("GET", "../controller/insertandprint.php?med_", true);
+  // xhttp.send();
+  //        }
        </script>
        <script>
         TweenMax.from('#company_logo',0.8,{x:-50,opacity:0})
